@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mavo Voice Analysis</title>
+    <link rel="icon" type="image/png" href="ico/icons8-voice-glyph-neue-16.png">
+    <link rel="stylesheet" href="mavo.css">
+    <link rel="stylesheet" href="mavo_graph/mavo_graph.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/7.7.3/wavesurfer.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mavo Voice Analysis</h1>
+            <p>Upload audio files for transcription and speaker diarization</p>
+            <p>API Documentation is available as <a href="/doc">Swagger</a> or <a href="/redoc">Redoc</a>.</p>
+        </header>
+        
+        <main class="main-content">
+            <!-- Left side - Upload and Audio Control section -->
+            <div class="upload-section">
+                <!-- Audio player section -->
+                <div id="audio-player-container" class="audio-player-container">
+                    <div class="audio-info">
+                        <div id="current-speaker" class="current-speaker">Speaker: --</div>
+                        <div id="current-time" class="current-time">00:00 / 00:00</div>
+                    </div>
+                    
+                    <!-- Current segment waveform -->
+                    <div id="waveform-current" class="waveform-container"></div>
+                    
+                    <!-- Audio controls -->
+                    <div class="audio-controls">
+                        <button id="playPauseBtn" class="btn-control">Play</button>
+                        <div class="volume-control">
+                            <span class="volume-icon">🔊</span>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="100" class="volume-slider">
+                            <span class="volume-value">100%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upload-container" class="upload-container">
+                    <div class="upload-icon">📁</div>
+                    <h2>Upload Audio File</h2>
+                    <p class="upload-text">Drag and drop an audio file here, or click the button below</p>
+                    <p class="upload-text"> * 새로 파일 올리시려면 새로고침 해주세요.</p>
+                    
+                    <input type="file" id="audio-file" accept="audio/*" style="display: none;">
+                    <button class="btn" onclick="document.getElementById('audio-file').click()">
+                        Choose File
+                    </button>
+                    
+                    <!-- Add the Clear button before Redo Proc -->
+                    <button id="clearBtn" class="btn btn-secondary" style="margin-top: 10px;">
+                        Clear
+                    </button>
+                    
+                    <!-- Add the Redo Proc button -->
+                    <button id="redoProcBtn" class="btn btn-secondary" style="margin-top: 10px;">
+                        Redo Proc
+                    </button>
+
+                    <div class="analysis-options">
+                        <h3>Analysis Options</h3>
+                        <div class="option-group">
+                            <label for="diarization_method">Diarization2 Method:</label>
+                            <select id="diarization_method" class="option-select">
+                                <option value="stt_apigpt_diar_apigpt">STT:GPT & DIAR:GPT</option>
+                                <option value="stt_apigpt_diar_apigpt2">STT:GPT & DIAR:GPT2</option>
+                                <option value="stt_apigpt_diar_apigpt3">STT:GPT & DIAR:GPT3</option>
+                                <option value="stt_apiasm_diar_apiasm">STT:ASM & DIAR:ASM</option>
+                                <option value="stt_apigpt_diar_mlpyan">STT:GPT & DIAR:ML_PYAN</option>
+                                <option value="stt_apigpt_diar_mlpyan2" selected>STT:GPT & DIAR:ML_PYAN2</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="is_limit_time" unchecked>
+                                Limit SoundFile Time
+                            </label>
+                        </div>
+                        <div class="option-group" id="time-limit-group">
+                            <label for="limit_time_sec">Time Limit (seconds):</label>
+                            <input type="range" id="limit_time_sec" min="30" max="3600" value="60" class="time-slider" disabled>
+                            <span id="time-limit-value">60s</span>
+                        </div>
+                    </div>
+                    
+                    <div id="file-info"></div>
+                    
+                    <div id="progress-container" class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                        </div>
+                        <div id="progress-text" class="progress-text">0%</div>
+                    </div>
+                    
+                    <div id="processing-spinner" class="spinner"></div>
+                    <div id="steps-progress" class="steps-progress"></div>
+                    
+                    <div id="error-message" class="error-message"></div>
+                    <div id="success-message" class="success-message"></div>
+                </div>
+            </div>
+
+            <!-- Right side - Transcript section -->
+            <div class="transcript-section">
+                <div id="result-container" class="result-container">
+                    <div class="result-header">
+                        <h2>Analysis Result</h2>
+                        <div id="elapsed-time" class="elapsed-time">Elapsed Time: --</div>
+                        <div id="analysis-buttons" class="analysis-buttons">
+                            <button id="sentimentBtn" class="analysis-btn">감정분석1</button>
+                            <button id="sentimentBtn2" class="analysis-btn">감정분석2</button>
+                        </div>
+                        <div id="analysis-results" class="analysis-results">
+                            <!-- 감정분석 결과 표시 위치 -->
+                        </div>
+                    </div>
+                    <div id="transcript" class="transcript"></div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Mavo Voice Analysis System</p>
+        </footer>
+    </div>
+    
+    <script src="mavo.js"></script>
+    <script src="mavo_graph/mavo_graph.js"></script>
+</body>
+</html> 
