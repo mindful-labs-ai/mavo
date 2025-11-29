@@ -1,0 +1,66 @@
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Development files
+devenv/
+*.sh
+test.sh
+run.sh
+*.md
+input_manifest.json
+mavo_svr.code-workspace
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Temporary files
+temp/
+uploads/
+persistent/
+
+# Package files
+requirements.freeze*.txt
+
+# Documentation
+README.md
+spec.md
+stage.md

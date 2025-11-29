@@ -1,0 +1,51 @@
+# Core web framework
+fastapi
+uvicorn
+python-multipart
+aiofiles
+python-dotenv
+pydantic
+httpx
+Hypercorn  # ASGI server with better async support
+uvloop  # Fast event loop implementation
+starlette
+anyio
+
+# For file handling and processing
+pydub  # Audio file manipulation
+ffmpeg-python  # For audio conversion
+audioread
+
+# For speech-to-text (Stage 4)
+openai-whisper  # Local Whisper model
+openai  # OpenAI API client
+torch  # PyTorch for Whisper
+torchaudio  # Audio processing for PyTorch
+numpy  # Numerical processing
+transformers
+
+# For speaker diarization (Stage 6 & 7)
+pyannote.audio  # Speaker diarization
+scipy  # Signal processing
+pyannote.core
+pyannote.pipeline
+
+# For utilities
+termcolor  # For colored console logging
+webrtcvad  # Voice Activity Detection
+psutil
+deepgram-sdk
+requests
+fuzzywuzzy
+tqdm
+soundfile
+librosa
+
+# Text processing & alignment
+regex  # Extended regex support
+jiwer  # WER/CER calculation
+
+ollama
+
+ekonlpy
+soynlp

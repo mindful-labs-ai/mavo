@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Temporary files
+backend/uploads/**/*
+backend/temp*/**/*
+temp*/**/*
+!backend/uploads/.gitkeep
+!backend/temp/.gitkeep
+
+# Environment variables
+.env
+
+# IDE files
+.idea/
+# .vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+uploads*/*
+backend/log/*
+backend/cleanup/*
+results/*
+test_results/**/*
+updated_transcript.json
+log/*.log
+data/**/*
+persistent/**/*.json
+pretrained_models/**/*
+temp_nemo_outputs/mono_file.wav
+temp_pyannote_diarization.wav
+temp_nemo_outputs/*.json
+temp_audio.wav
+log/tmp_audio.wav
+analyzed_segments.json
+diarization_data.json
+psycho_timeline*.mp4
+chart_data.json
+chart_data.pkl
+psycho_timeline.png
+outputs/*

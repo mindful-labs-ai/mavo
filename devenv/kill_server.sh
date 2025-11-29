@@ -1,0 +1,1 @@
+sudo lsof -i :25500 | xargs kill -9

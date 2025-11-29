@@ -1,0 +1,247 @@
+/* Chart and statistics styles for Mavo Graphs */
+
+.statistics-container {
+    margin: 15px 0 30px 0;
+}
+
+.statistics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.statistics-table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.statistics-table tr:last-child {
+    border-bottom: none;
+}
+
+.statistics-table td {
+    padding: 12px 15px;
+}
+
+.stat-label {
+    width: 25%;
+    font-weight: 500;
+    color: #444;
+    background-color: #f5f5f5;
+}
+
+.stat-value {
+    color: #333;
+}
+
+.sentiment-value, .tense-value {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 0 2px;
+    font-weight: 500;
+}
+
+.sentiment-positive {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #2e7d32;
+}
+
+.sentiment-neutral {
+    background-color: rgba(158, 158, 158, 0.1);
+    color: #616161;
+}
+
+.sentiment-negative {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #d32f2f;
+}
+
+.tense-future {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: #e65100;
+}
+
+.tense-present {
+    background-color: rgba(158, 158, 158, 0.1);
+    color: #616161;
+}
+
+.tense-past {
+    background-color: rgba(156, 39, 176, 0.1);
+    color: #7b1fa2;
+}
+
+.speaker-label {
+    font-weight: 500;
+    color: #333;
+    margin-right: 4px;
+}
+
+.noun-value {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin: 2px 4px;
+    font-weight: 500;
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #1565c0;
+}
+
+.noun-freq {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 2px;
+}
+
+.proper-noun-value {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin: 2px 4px;
+    font-weight: 500;
+    background-color: rgba(233, 30, 99, 0.1);
+    color: #c2185b;
+}
+
+.analysis-chart {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.interactive-charts-container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1400px;
+}
+
+.charts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.chart-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.chart-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.chart-container {
+    width: 100%;
+    height: 180px;
+    background-color: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#silenceMomentsChart.chart-container {
+    height: 220px;
+}
+
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-container {
+        height: 250px;
+    }
+}
+
+.speaker-stats {
+    margin: 6px 0;
+    padding: 4px 8px;
+    background-color: rgba(250, 250, 250, 0.5);
+    border-radius: 4px;
+    border-left: 3px solid #ccc;
+}
+
+.speaker-stats:nth-child(1) {
+    border-left-color: #2196F3;
+}
+
+.speaker-stats:nth-child(2) {
+    border-left-color: #4CAF50;
+}
+
+.speaker-stats:nth-child(3) {
+    border-left-color: #FF9800;
+}
+
+.speaker-stats:nth-child(4) {
+    border-left-color: #E91E63;
+}
+
+.speaker-stats:nth-child(5) {
+    border-left-color: #9C27B0;
+}
+
+.time-value {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 0 2px;
+    font-weight: 500;
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #1565c0;
+}
+
+.silence-value {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 0 2px;
+    font-weight: 500;
+    background-color: rgba(158, 158, 158, 0.1);
+    color: #616161;
+}
+
+.cadence-value {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 0 2px;
+    font-weight: 500;
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #2e7d32;
+}
+
+.inline-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.speaker-group {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+    white-space: nowrap;
+}
