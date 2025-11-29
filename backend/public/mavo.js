@@ -823,9 +823,8 @@ async function pollStatus(audioUuid) {
             await new Promise(resolve => setTimeout(resolve, 1000));
             
         } catch (error) {
-            console.error(`Error checking status (attempt ${retryCount + 1}):`, error.message);
+            console.error(`Error checking status (attempt ${retryCount + 1}):`, error);
             
-            // Implement exponential backoff for retries
             retryCount++;
             
             if (retryCount > maxRetries) {

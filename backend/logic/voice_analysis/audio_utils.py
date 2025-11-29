@@ -29,7 +29,6 @@ from backend.logic.models import AnalysisWork, AudioStatus, analysis_jobs, Trans
 import backend.config as config
 from backend.logic.voice_analysis.ai_utils import postprocess_segments, get_openai_client, improve_transcription_lines
 from backend.util.logger import get_logger
-from fuzzywuzzy import fuzz
 
 # Get logger
 logger = get_logger(__name__)

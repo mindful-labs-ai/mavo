@@ -67,12 +67,14 @@ async def run_sentiment_analysis(
                     detail=f"No analysis job found for audio_uuid {audio_uuid}"
                 )
         
-        # Check if we have the required data
+        # Check if we have the required data, load from disk if needed
         if not job.result:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Analysis job has no result data available"
-            )
+            # Try to load result from disk (lazy loading)
+            if not job.load_result_from_disk():
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Analysis job has no result data available"
+                )
         
         # Create output directory for this job
         output_dir = config.UPLOADS_DIR / str(audio_uuid) / "analysis"
@@ -243,4 +245,4 @@ async def get_sentiment_data(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error getting sentiment data: {str(e)}"
-        ) 
+        )

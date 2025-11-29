@@ -40,10 +40,10 @@ RUN ln -s /usr/local/bin/python3.12 /usr/local/bin/python && \
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY requirements.optimized.txt .
 
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.optimized.txt
 
 COPY backend/ ./backend/
 COPY nemo_msdd_configs/ ./nemo_msdd_configs/
