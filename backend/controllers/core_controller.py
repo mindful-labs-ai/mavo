@@ -21,25 +21,23 @@ logger.info("Started monitor thread")
 # Create API router with tags for better organization in Swagger
 router = APIRouter(tags=["Core"])
 
-# Root endpoint - redirect to the HTML page
-@router.get("/", 
-    summary="Root Endpoint(fake)",
-    description="Redirects to the HTML test page."
-)
-async def root():
-    # return 599 (custom)
-    raise HTTPException(status_code=599, detail="599 error")
-    
 
 # Root endpoint - redirect to the HTML page
-@router.get("/mavo", 
-    summary="Root Endpoint",
-    description="Redirects to the HTML test page."
+@router.get(
+    "/", summary="Root Endpoint", description="Redirects to the HTML test page."
+)
+async def root():
+    return RedirectResponse(url="/mavo")
+
+
+# Root endpoint - redirect to the HTML page
+@router.get(
+    "/mavo", summary="Root Endpoint", description="Redirects to the HTML test page."
 )
 async def mavo_root():
     """
     Root endpoint that redirects to the HTML test page.
-    
+
     Returns:
         RedirectResponse: Redirects to the HTML test page.
     """
@@ -49,22 +47,24 @@ async def mavo_root():
     response.headers["Expires"] = "0"
     return response
 
+
 # API endpoint
-@router.get("/api/v1/", 
+@router.get(
+    "/api/v1/",
     summary="API Information",
     description="Returns information about the API status and available endpoints.",
     response_description="API information object",
     status_code=status.HTTP_200_OK,
-    response_model_exclude_none=True
+    response_model_exclude_none=True,
 )
 async def api_root() -> Dict[str, Any]:
     """
     Returns information about the API status and available endpoints.
-    
+
     Returns:
         Dict[str, Any]: A dictionary containing API information.
     """
-    
+
     return {
         "message": "Welcome to Mavo Voice Analysis Server",
         "status": "running",
@@ -73,6 +73,6 @@ async def api_root() -> Dict[str, Any]:
         "server_info": {
             "port": config.PORT,
             "host": config.HOST,
-            "debug": config.DEBUG
-        }
-    } 
+            "debug": config.DEBUG,
+        },
+    }
