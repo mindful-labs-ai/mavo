@@ -11,7 +11,7 @@ import copy
 
 # Add the parent directory to sys.path to allow imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from logic.models import AnalysisWork, AudioStatus, analysis_jobs, ChunkInfo, load_analysis_work_from_json, save_analysis_work_to_json, load_all_saved_jobs
+from logic.models import AnalysisWork, AudioStatus, analysis_jobs, ChunkInfo, load_analysis_work_from_json, save_analysis_work_to_json
 from logic.voice_analysis.process import process_audio_file
 import config
 from pathlib import Path
