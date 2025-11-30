@@ -36,7 +36,6 @@ webrtcvad  # Voice Activity Detection
 psutil
 deepgram-sdk
 requests
-fuzzywuzzy
 tqdm
 soundfile
 librosa

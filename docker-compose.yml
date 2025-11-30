@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  mavo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Use GPU if available (comment out if not needed)
+      # args:
+      #   BUILDKIT_INLINE_CACHE: 1
+    image: mavo:latest
+    container_name: mavo-server
+    ports:
+      - "25500:25500"
+    volumes:
+      # Persistent storage for uploads, temp files, and data
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
+      - ./persistent:/app/persistent
+      # Optional: Mount Nemo configs if you want to modify them at runtime
+      - ./nemo_msdd_configs:/app/nemo_msdd_configs:ro
+    environment:
+      # Server configuration
+      - PORT=25500
+      - HOST=0.0.0.0
+      - DEBUG=false
+
+      # Data directories (container paths)
+      - MAVO_DATASET_DIR=/app
+
+      # Whisper configuration
+      - WHISPER_MODEL=base
+      - USE_GPU=true
+
+      # OpenAI API (set these in .env file)
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_API_STT_MODEL=whisper-1
+      - OPENAI_API_TRANSCRIPT_IMPROVEMENT_MODEL=gpt-4o-mini
+
+      # Diarization settings
+      - MAX_SPEAKERS=5
+
+    # GPU support (uncomment if you have NVIDIA GPU and want to use it)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:25500/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Logging
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# Optional: Add a reverse proxy with nginx
+# services:
+#   nginx:
+#     image: nginx:alpine
+#     container_name: mavo-nginx
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     volumes:
+#       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#       - ./ssl:/etc/ssl/certs:ro
+#     depends_on:
+#       - mavo
+#     restart: unless-stopped

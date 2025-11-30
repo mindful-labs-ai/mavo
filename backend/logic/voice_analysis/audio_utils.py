@@ -1,35 +1,19 @@
-import asyncio
 import json
 import os
 import tempfile
-import whisper
-import torch
-import numpy as np
 from pydub import AudioSegment
-from openai import OpenAI
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
-from fastapi import BackgroundTasks
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
+from typing import Dict, List
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import traceback
 import webrtcvad
 import wave
-import array
-import struct
-from pyannote.audio import Pipeline
-import torchaudio
 import copy
-import re
-import matplotlib.pyplot as plt
-import librosa
-import librosa.display
-import uuid
 from backend.logic.stt_utils import get_improved_lines_with_ts
-from backend.logic.models import AnalysisWork, AudioStatus, analysis_jobs, TranscriptionResult, Segment, Speaker
+from backend.logic.models import AnalysisWork, AudioStatus, analysis_jobs
 import backend.config as config
 from backend.logic.voice_analysis.ai_utils import postprocess_segments, get_openai_client, improve_transcription_lines
 from backend.util.logger import get_logger
-from fuzzywuzzy import fuzz
 
 # Get logger
 logger = get_logger(__name__)
