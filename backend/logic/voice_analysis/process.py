@@ -3,27 +3,6 @@ import gc
 import json
 import os
 import tempfile
-import torch
-import functools
-
-# Fix for PyTorch 2.6+ where weights_only=True is default
-# This is needed for pyannote.audio and other pretrained model loading
-# Patch torch.load to always use weights_only=False
-_original_torch_load = torch.load
-
-
-@functools.wraps(_original_torch_load)
-def _patched_torch_load(*args, **kwargs):
-    # Force weights_only=False regardless of what was passed
-    kwargs["weights_only"] = False
-    return _original_torch_load(*args, **kwargs)
-
-
-# Apply patch to both torch.load and torch.serialization module
-torch.load = _patched_torch_load
-torch.serialization.load = _patched_torch_load
-
-
 from pydub import AudioSegment
 from typing import Dict, List, Any
 from fastapi import BackgroundTasks
@@ -72,10 +51,14 @@ from matplotlib.patches import Patch
 from matplotlib.widgets import Slider
 import matplotlib as mpl
 
+import torch
+
+# This must be imported before pyannote.audio, torchaudio, etc.
+import backend.util.setup_torch  # noqa: F401
+
 if config.is_linux:
     import whisperx
 
-# Get logger
 logger = get_logger(__name__)
 
 
@@ -143,21 +126,7 @@ async def diarize_audio_parallel(analysis_job, split_segments):
             )
             print("segment", segment)
 
-            # Get segment duration for time offset calculation
-            # temp_wav = AudioSegment.from_file(segment_path)
             tmp_wav_path = str(segment_path)
-            # audio_segment = AudioSegment.from_file(segment_path)
-            # segment_duration_ms = len(audio_segment)
-            # segment_duration = segment_duration_ms / 1000  # Convert to seconds
-
-            # # Convert audio to required format (ensure mono and 16kHz)
-            # audio_segment = audio_segment.set_channels(1)
-            # audio_segment = audio_segment.set_frame_rate(16000)
-
-            # Create temporary WAV file
-            # with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_wav:
-            #     tmp_wav_path = tmp_wav.name
-            #     audio_segment.export(tmp_wav_path, format='wav')
 
             time_offset = segment["start"]  # second
             print("time_offset for segment", segment_idx, time_offset)
