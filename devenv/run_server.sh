@@ -23,31 +23,23 @@ if [[ "$VIRTUAL_ENV" == "" ]]; then
     echo "Virtual environment activated."
 fi
 
-# Load PORT from .env file if it exists
 if [ -f "$PROJECT_ROOT/.env" ]; then
     export $(grep -v '^#' "$PROJECT_ROOT/.env" | xargs)
     echo "Loaded environment variables from .env file."
     echo "Using PORT: $PORT"
+# elif [ -n "$PORT" ]; then
+#     echo "Using existing PORT environment variable: $PORT"
 else
-    # Default port if .env file doesn't exist
     export PORT=25500
     echo "No .env file found. Using default PORT: $PORT"
 fi
 
-# Set PYTHONPATH to include the project root
 export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 echo "PYTHONPATH set to: $PYTHONPATH"
 
-# Change to backend directory and run server
-# cd "$PROJECT_ROOT/backend"
-
-## single thread
-# uvicorn main:app --host ${HOST:-0.0.0.0} --port ${PORT:-25500} --reload 
 uvicorn backend.main:app --host ${HOST:-0.0.0.0} --port ${PORT:-25500} 
 
 ## multi thread - erraneous
 # uvicorn main:app --host ${HOST:-0.0.0.0} --port ${PORT:-25500} --workers 8
 
 # hypercorn main:app --bind ${HOST:-0.0.0.0}:${PORT:-25500} --worker-class uvloop --reload --workers 4 --log-level debug
-
-# Note: The virtual environment will remain active after this script exits 

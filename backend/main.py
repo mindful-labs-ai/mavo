@@ -30,7 +30,7 @@ app = FastAPI(
     """,
     version="0.1.0",
     docs_url=None,  # Disable default docs to use custom docs
-    redoc_url=None  # Disable default redoc to use custom redoc
+    redoc_url=None,  # Disable default redoc to use custom redoc
 )
 
 # Configure CORS
@@ -50,6 +50,7 @@ public_dir = os.path.join(current_dir, "public")
 # Mount the static files directory
 app.mount("/public", StaticFiles(directory=public_dir, html=True), name="public")
 
+
 # Add cache control middleware
 @app.middleware("http")
 async def add_cache_control_headers(request, call_next):
@@ -58,6 +59,7 @@ async def add_cache_control_headers(request, call_next):
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
+
 
 # Add this route before the static files mount
 @app.get("/mavo")
@@ -68,10 +70,6 @@ async def redirect_to_mavo(uuid: Optional[str] = None):
         return RedirectResponse(url=f"{base_url}?uuid={uuid}")
     return RedirectResponse(url=base_url)
 
-# Load saved jobs from disk
-saved_jobs = load_all_saved_jobs()
-analysis_jobs.update(saved_jobs)
-print(f"Loaded {len(saved_jobs)} previously saved analysis jobs")
 
 # Include the API router with all controllers
 app.include_router(api_router)
@@ -81,4 +79,4 @@ setup_docs_routes(app)
 
 # Run the server if executed directly
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=config.HOST, port=config.PORT, reload=config.DEBUG) 
+    uvicorn.run("main:app", host=config.HOST, port=config.PORT, reload=config.DEBUG)
