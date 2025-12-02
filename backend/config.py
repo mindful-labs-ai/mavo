@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv
 import sys
 from typing import Optional
 
-load_dotenv(find_dotenv())
+load_dotenv()
 
 
 class Env:
@@ -78,14 +78,14 @@ class Env:
         # Supabase settings (필수)
         self.SUPABASE_URL = os.getenv("SUPABASE_URL")
         self.SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-        # if not self.SUPABASE_URL:
-        #     raise ValueError(
-        #         "SUPABASE_URL 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요."
-        #     )
-        # if not self.SUPABASE_SERVICE_KEY:
-        #     raise ValueError(
-        #         "SUPABASE_SERVICE_ROLE_KEY 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요."
-        #     )
+        if not self.SUPABASE_URL:
+            raise ValueError(
+                "SUPABASE_URL 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요."
+            )
+        if not self.SUPABASE_SERVICE_KEY:
+            raise ValueError(
+                "SUPABASE_SERVICE_ROLE_KEY 환경변수가 설정되지 않았습니다. .env 파일을 확인하세요."
+            )
 
         # S3 settings
         self.S3_REGION = os.getenv("S3_REGION")
@@ -97,7 +97,6 @@ class Env:
         self.GEMINI_SPEED_FACTOR = float(os.getenv("GEMINI_SPEED_FACTOR", "2.0"))
 
 
-# Singleton 인스턴스 생성
 env = Env()
 
 

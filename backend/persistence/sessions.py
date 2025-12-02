@@ -1,4 +1,3 @@
-import os
 from typing import Optional
 from backend.config import SUPABASE_SERVICE_KEY, SUPABASE_URL
 from backend.controllers.views.session import SessionRequest
