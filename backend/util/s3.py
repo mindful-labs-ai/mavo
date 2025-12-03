@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 from util.logger import get_logger
 from backend.config import S3_ACCESS_KEY, S3_BUCKET_NAME, S3_REGION, S3_SECRET_KEY
 import boto3
+from botocore.config import Config
 
 
 logger = get_logger(__name__)
