@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.post(
-    "/",
+    "",
     summary="Run session flow (S3 -> STT -> note)",
     status_code=status.HTTP_202_ACCEPTED,
     response_model=SessionResponse,

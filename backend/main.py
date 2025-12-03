@@ -30,6 +30,7 @@ app = FastAPI(
     version="0.1.0",
     docs_url=None,  # Disable default docs to use custom docs
     redoc_url=None,  # Disable default redoc to use custom redoc
+    redirect_slashes=False,  # Disable trailing slash redirect to prevent CORS issues
 )
 
 # Configure CORS
