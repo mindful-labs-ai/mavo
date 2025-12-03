@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from .upload_controller import router as upload_router
 from .core_controller import router as core_router
 from .maum_controller import router as maum_router
-from .session_v2_controller import router as session_v2_router
+from .v2.session_controller import router as session_v2_router
 
 # Create a main router that includes all controller routers
 api_router = APIRouter()
