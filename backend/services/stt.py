@@ -138,21 +138,19 @@ async def run_stt_with_gemini(audio_url: str) -> str:
 
 ## **I. 핵심 작성 원칙**
 1. **Full-Verbatim:** 처음부터 끝까지 들리는 모든 소리를 누락 없이 받아 적으십시오.
-2. **Integer Time Format:** 타임스탬프는 **HH:MM:SS (시:분:초)** 형식의 정수로만 기록하십시오. 소수점은 절대 사용하지 마십시오.
-3. **No Chatter:** 서론, 결론 없이 오직 데이터 라인만 출력하십시오.
+2. **No Chatter:** 서론, 결론 없이 오직 데이터 라인만 출력하십시오.
 
 ## **II. 데이터 코드 매핑 (Sequential Speaker Mode)**
 상담자(C)를 제외한 모든 화자는 등장 순서대로 P1, P2...로 번호를 매깁니다.
 
-1. **구조:** '%T%시간||화자코드||내용'
-   - **Line Start:** '%T%' (고정)
+1. **구조:** '화자코드||내용'
    - **Counselor (상담자):** 'C'
    - **Participants (참여자):** 상담자 외의 목소리는 구분되는 순서대로 'P1', 'P2', 'P3'... 코드를 부여하십시오.
      - (예: 내담자A -> P1, 내담자B -> P2, 내담자모친 -> P3)
    
-   - **Example:** '%T%00:00:01||C||안녕하세요.'
-   - **Example:** '%T%00:00:02||P1||안녕하세요.'
-   - **Example:** '%T%00:00:04||P2||저도 왔습니다.'
+   - **Example:** 'C||안녕하세요.'
+   - **Example:** 'P1||안녕하세요.'
+   - **Example:** 'P2||저도 왔습니다.'
 
 2. **비언어/행동 태그 (Short Tags)**
    - 텍스트 내 구분자는 충돌 방지를 위해 '{}'와 '%'를 사용합니다.
@@ -162,10 +160,9 @@ async def run_stt_with_gemini(audio_url: str) -> str:
    - 개입/겹침: '{%O%}' (Overlap)
 
 ## **III. 출력 예시 (Multi-Speaker Shot)**
-%T%00:00:00||C||오늘 두 분, 사이가 좀 어떠신가요?
-%T%00:00:02||P1||{%A%한숨%} 저는 그냥 답답해요. {%S%} 말이 안 통하거든요.
-%T%00:00:05||P2||{%O%} {%E%말을 왜 그렇게 해?} 내가 언제 말을 안 들었어?
-%T%00:00:08||C||자, 두 분 잠시만 진정하시고 한 분씩 이야기해볼까요?
+C||오늘 두 분, 사이가 좀 어떠신가요?
+P1||{%A%한숨%} 저는 그냥 답답해요. {%S%} 말이 안 통하거든요.
+P2||{%O%} {%E%말을 왜 그렇게 해?} 내가 언제 말을 안 들었어?
 
 ## **IV. 수행 명령**
 위 포맷에 맞춰 지금 즉시 변환을 시작하십시오.
@@ -251,7 +248,7 @@ def parse_gemini_raw_output(raw_output: str, stt_model: str) -> Dict[str, Any]:
         text = text[1:-1]
 
     segments = []
-    pattern = re.compile(r"^%T%(\d{2}):(\d{2}):(\d{2})\|\|(C|P\d+)\|\|(.*)$")
+    pattern = re.compile(r"^(?:%T%\d{2}:\d{2}:\d{2}\|\|)?(C|P\d+)\|\|(.*)$")
     for line in text.splitlines():
         line = line.strip()
         if not line:
@@ -259,7 +256,7 @@ def parse_gemini_raw_output(raw_output: str, stt_model: str) -> Dict[str, Any]:
         m = pattern.match(line)
         if not m:
             continue
-        _, _, _, speaker, content = m.groups()
+        speaker, content = m.groups()
         segments.append(
             {
                 "start": None,
