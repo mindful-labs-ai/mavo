@@ -1,17 +1,13 @@
+import os
+import uvicorn
+from backend import config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-import uvicorn
-import os
-import sys
 from fastapi.responses import RedirectResponse
 from typing import Optional
-
-# Add the current directory to sys.path to allow imports
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from backend.controllers import api_router
 from backend.controllers.docs import setup_docs_routes
-import config
 
 # Initialize FastAPI app
 app = FastAPI(
