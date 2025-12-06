@@ -1,7 +1,7 @@
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
-import sys
 from typing import Optional
 
 load_dotenv()
